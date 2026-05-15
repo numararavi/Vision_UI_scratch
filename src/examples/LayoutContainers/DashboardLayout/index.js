@@ -1,10 +1,34 @@
-import React from "react";
-import Box from "@mui/material/Box";
+﻿import VuiBox from "components/VuiBox";
+import { useVisionUIController } from "context";
+import PropTypes from "prop-types";
 
-export default function DashboardLayout({ children }) {
+function DashboardLayout({ children }) {
+  const [controller] = useVisionUIController();
+  const { miniSidenav } = controller;
+
   return (
-    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "transparent" }}>
+    <VuiBox
+      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+        p: 3,
+        position: "relative",
+        // Jika miniSidenav true, margin jadi 0. Jika false, margin 274px
+        marginLeft: miniSidenav ? 0 : pxToRem(274),
+        transition: transitions.create(["margin-left", "margin-right"], {
+          easing: transitions.easing.easeInOut,
+          duration: transitions.duration.standard,
+        }),
+        [breakpoints.down("xl")]: {
+          marginLeft: 0,
+        },
+      })}
+    >
       {children}
-    </Box>
+    </VuiBox>
   );
 }
+
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default DashboardLayout;

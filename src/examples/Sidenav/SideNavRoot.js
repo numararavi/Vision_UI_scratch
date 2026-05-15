@@ -7,25 +7,32 @@ const SidenavRoot = styled(Drawer)(({ theme, ownerState }) => {
   const { pxToRem, linearGradient } = functions;
   const { gradients, transparent } = palette;
 
+  const sidebarWidth = 250;
+
   return {
-    width: 250,
+    width: sidebarWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     "& .MuiDrawer-paper": {
-      width: 250,
+      width: sidebarWidth,
       border: 0,
       background: transparentSidenav
         ? transparent.main
         : linearGradient(gradients.sidenav.main, gradients.sidenav.state, gradients.sidenav.deg),
       backdropFilter: transparentSidenav ? "unset" : "blur(120px)",
       overflowX: "hidden",
-      transition: transitions.create(["width", "background-color"], {
+      
+      // LOGIKA GESER (Transform)
+      transform: miniSidenav ? `translateX(${pxToRem(-300)})` : "translateX(0)",
+      
+      transition: transitions.create(["transform", "width", "background-color"], {
         easing: transitions.easing.sharp,
         duration: transitions.duration.shorter,
       }),
+      
       [breakpoints.up("xl")]: {
-        width: miniSidenav ? pxToRem(96) : 250,
+        width: sidebarWidth,
       },
     },
   };
