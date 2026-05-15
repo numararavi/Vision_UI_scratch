@@ -1,13 +1,27 @@
 ﻿import { forwardRef } from "react";
 import PropTypes from "prop-types";
-import Switch from "@mui/material/Switch";
 
-const VuiSwitch = forwardRef((props, ref) => <Switch ref={ref} {...props} />);
+// Custom styles for VuiProgress
+import VuiProgressRoot from "components/VuiProgress/VuiProgressRoot";
 
-VuiSwitch.propTypes = {
-  checked: PropTypes.bool,
-  onChange: PropTypes.func,
-  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error"]),
+const VuiProgress = forwardRef(({ color, value, ...rest }, ref) => (
+  <VuiProgressRoot
+    {...rest}
+    ref={ref}
+    variant="determinate"
+    value={value}
+    ownerState={{ color, value }}
+  />
+));
+
+VuiProgress.defaultProps = {
+  color: "info",
+  value: 0,
 };
 
-export default VuiSwitch;
+VuiProgress.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "light", "dark"]),
+  value: PropTypes.number,
+};
+
+export default VuiProgress;
