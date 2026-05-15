@@ -1,0 +1,14 @@
+﻿{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@layouts/*": ["./layouts/*"],
+      "@examples/*": ["./examples/*"],
+      "@assets/*": ["./assets/*"],
+      "@context": ["./context/index.js"]
+    }
+  },
+  "include": ["src"]
+}
