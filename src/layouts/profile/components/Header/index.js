@@ -1,83 +1,55 @@
 import { useState, useEffect } from "react";
-
-// @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-// Vision UI Dashboard React components
+// @mui icons - GANTI KE SINI
+import SettingsIcon from '@mui/icons-material/Settings';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import BuildIcon from '@mui/icons-material/Build';
+
 import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 import VuiAvatar from "components/VuiAvatar";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-// Vision UI Dashboard React icons
-import { IoCube } from "react-icons/io5";
-import { IoDocument } from "react-icons/io5";
-import { IoBuild } from "react-icons/io5";
-
-// Vision UI Dashboard React base styles
-import breakpoints from "assets/theme/base/breakpoints";
-
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import burceMars from "assets/images/avatar-simmmple.png";
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
-  useEffect(() => {
-    // Fungsi untuk mengatur orientasi tab berdasarkan ukuran layar
-    function handleTabsOrientation() {
-      return window.innerWidth < breakpoints.values.sm
-        ? setTabsOrientation("vertical")
-        : setTabsOrientation("horizontal");
-    }
-
-    window.addEventListener("resize", handleTabsOrientation);
-    handleTabsOrientation();
-
-    return () => window.removeEventListener("resize", handleTabsOrientation);
-  }, [tabsOrientation]);
-
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
   return (
-    <VuiBox position="relative">
-      <DashboardNavbar light />
-      <VuiBox height="220px" />
+    <VuiBox position="relative" sx={{ zIndex: 1100 }}>
+      <DashboardNavbar />
       <Card
         sx={{
-          padding: "20px",
-          margin: "-64px 24px 0",
+          px: 3,
+          mt: 2,
+          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.05) 100%)",
           backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(6, 11, 38, 0.8)",
-          border: "1px solid rgba(255, 255, 255, 0.125)",
         }}
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <VuiAvatar
-              src={burceMars}
-              alt="profile-image"
-              variant="rounded"
-              size="xl"
-              shadow="sm"
-            />
+            <VuiAvatar src={burceMars} variant="rounded" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <VuiBox height="100%" mt={0.5} lineHeight={1}>
-              <VuiTypography variant="h5" color="white" fontWeight="medium">
+              <VuiTypography variant="lg" color="white" fontWeight="bold">
                 Mark Johnson
               </VuiTypography>
-              <VuiTypography variant="button" color="text" fontWeight="medium">
+              <VuiTypography variant="button" color="text" fontWeight="regular">
                 CEO / Co-Founder
               </VuiTypography>
             </VuiBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+          <Grid item xs={12} md={4} lg={3} sx={{ ml: "auto" }}>
             <AppBar position="static">
               <Tabs
                 orientation={tabsOrientation}
@@ -85,9 +57,18 @@ function Header() {
                 onChange={handleSetTabValue}
                 sx={{ background: "transparent" }}
               >
-                <Tab label="OVERVIEW" icon={<IoCube size="16px" color="white" />} />
-                <Tab label="TEAMS" icon={<IoDocument size="16px" color="white" />} />
-                <Tab label="PROJECTS" icon={<IoBuild size="16px" color="white" />} />
+                <Tab 
+                  label="OVERVIEW" 
+                  icon={<SettingsIcon sx={{ color: "#fff !important" }} />} 
+                />
+                <Tab 
+                  label="TEAMS" 
+                  icon={<DocumentScannerIcon sx={{ color: "#fff !important" }} />} 
+                />
+                <Tab 
+                  label="PROJECTS" 
+                  icon={<BuildIcon sx={{ color: "#fff !important" }} />} 
+                />
               </Tabs>
             </AppBar>
           </Grid>

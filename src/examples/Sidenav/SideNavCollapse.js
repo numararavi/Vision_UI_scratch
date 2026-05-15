@@ -1,75 +1,86 @@
 ﻿import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
-import { ListItem, ListItemButton, ListItemIcon, ListItemText, Icon, Tooltip } from "@mui/material";
-import { useVisionUIController } from "../../context";
+import { NavLink } from "react-router-dom"; // Tambahkan import ini
 
-function SidenavCollapse({ icon, name, active, route, href }) {
+// @mui material components
+import Collapse from "@mui/material/Collapse";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Icon from "@mui/material/Icon";
+
+// Vision UI Dashboard React components
+import VuiBox from "components/VuiBox";
+
+// Custom styles
+import {
+  collapseItem,
+  collapseIconBox,
+  collapseIcon,
+  collapseText,
+} from "examples/Sidenav/Styles/sidenavCollapse";
+
+// Vision UI Dashboard React context
+import { useVisionUIController } from "context";
+
+function SideNavCollapse({ icon, name, children, active, route, ...rest }) {
   const [controller] = useVisionUIController();
-  const { miniSidenav } = controller;
+  const { miniSidenav, transparentSidenav } = controller;
 
-  const linkProps = href
-    ? {
-        component: "a",
-        href,
-        target: "_blank",
-        rel: "noreferrer",
-      }
-    : {
-        component: NavLink,
-        to: route || "#",
-      };
+  const ownerState = { active, miniSidenav, transparentSidenav };
 
-  const content = (
-    <ListItemButton
-      {...linkProps}
-      sx={{
-        color: "white",
-        borderRadius: 2,
-        mx: miniSidenav ? 1 : 1.25,
-        my: 0.5,
-        minHeight: 44,
-        justifyContent: miniSidenav ? "center" : "flex-start",
-        backgroundColor: active ? "rgba(255,255,255,0.16)" : "transparent",
-        border: active ? "1px solid rgba(255,255,255,0.22)" : "1px solid transparent",
-        transition: "all 200ms ease",
-        "&:hover": {
-          backgroundColor: "rgba(255,255,255,0.12)",
-          borderColor: "rgba(255,255,255,0.2)",
-        },
-      }}
-    >
-      <ListItemIcon sx={{ minWidth: miniSidenav ? 0 : 36, color: "white", display: "grid", placeItems: "center" }}>
-        {typeof icon === "string" ? <Icon>{icon}</Icon> : icon}
-      </ListItemIcon>
+  return (
+    <>
+      {/* Bungkus ListItem dengan NavLink agar bisa routing */}
+      <ListItem 
+        component={route ? NavLink : "li"} 
+        to={route} 
+        sx={{ textDecoration: "none", display: "block" }}
+      >
+        <VuiBox {...rest} sx={(theme) => collapseItem(theme, ownerState)}>
+          <ListItemIcon sx={(theme) => collapseIconBox(theme, ownerState)}>
+            {typeof icon === "string" ? (
+              <Icon sx={(theme) => collapseIcon(theme, ownerState)}>{icon}</Icon>
+            ) : (
+              <VuiBox 
+                sx={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  "& svg": { color: "#fff !important", fontSize: "16px" } 
+                }}
+              >
+                {icon}
+              </VuiBox>
+            )}
+          </ListItemIcon>
 
-      {!miniSidenav && (
-        <ListItemText
-          primary={name}
-          primaryTypographyProps={{
-            variant: "button",
-            fontWeight: active ? "bold" : "medium",
-            color: "white",
-          }}
-        />
+          <ListItemText
+            primary={name}
+            sx={(theme) => collapseText(theme, ownerState)}
+          />
+        </VuiBox>
+      </ListItem>
+      
+      {children && (
+        <Collapse in={active} unmountOnExit>
+          {children}
+        </Collapse>
       )}
-    </ListItemButton>
+    </>
   );
-
-  return <ListItem disablePadding>{miniSidenav ? <Tooltip title={name} placement="right">{content}</Tooltip> : content}</ListItem>;
 }
 
-SidenavCollapse.defaultProps = {
+SideNavCollapse.defaultProps = {
   active: false,
-  route: "#",
-  href: undefined,
+  children: false,
+  route: "", // Tambahkan default value
 };
 
-SidenavCollapse.propTypes = {
+SideNavCollapse.propTypes = {
   icon: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
+  children: PropTypes.node,
   active: PropTypes.bool,
-  route: PropTypes.string,
-  href: PropTypes.string,
+  route: PropTypes.string, // Tambahkan prop type
 };
 
-export default SidenavCollapse;
+export default SideNavCollapse;
