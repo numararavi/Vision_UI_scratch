@@ -1,53 +1,87 @@
-﻿import { Card, Icon } from "@mui/material";
-import VuiBox from "../../../../components/VuiBox";
-import VuiTypography from "../../../../components/VuiTypography";
-import VuiButton from "../../../../components/VuiButton";
+﻿import React from "react";
+import Card from "@mui/material/Card";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
+// Vision UI Dashboard React components
+import VuiBox from "components/VuiBox";
+import VuiTypography from "components/VuiTypography";
+
+// Import asset gambar roket/welcome bawaan template kamu jika ada
+import welcomeCardBg from "assets/images/cardimgfree.png"; 
 
 function WelcomeMark() {
   return (
     <Card
       sx={{
+        height: "100%", // Memaksa card mengikuti tinggi row Grid stretch
+        minHeight: "340px", // Biar presisi sama dengan SatisfactionRate
+        backgroundImage: `url(${welcomeCardBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "50%",
+        p: 3,
+        borderRadius: "20px",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
         position: "relative",
         overflow: "hidden",
-        backgroundImage:
-          "radial-gradient(circle at 20% 20%, rgba(44, 217, 255, 0.25), transparent 55%), linear-gradient(127.09deg, rgba(6, 11, 40, 0.95) 3.29%, rgba(10, 14, 35, 0.75) 92.1%)",
-        border: "1px solid rgba(145, 160, 255, 0.16)",
-        borderRadius: "18px",
-        p: 3,
-        minHeight: 340,
-        transition: "transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms cubic-bezier(.2,.8,.2,1)",
-        '&:hover': {
-          transform: "translateY(-6px)",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.45)",
-        },
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
       }}
     >
-      <VuiBox>
-        <VuiTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase" sx={{ letterSpacing: "0.2em" }}>
-          Welcome back
+      {/* BAGIAN ATAS: Teks Pengantar */}
+      <VuiBox display="flex" flexDirection="column" sx={{ zIndex: 2, maxWidth: "65%" }}>
+        <VuiTypography variant="button" color="text" fontWeight="bold" mb="4px" sx={{ opacity: 0.7 }}>
+          Welcome back,
         </VuiTypography>
-        <VuiTypography variant="h4" color="white" fontWeight="bold" mt={1.5} mb={1}>
-          Mark Johnson
+        <VuiTypography variant="h3" color="white" fontWeight="bold" mb="12px" sx={{ lineHeight: 1.2 }}>
+          Glad to see you again!
         </VuiTypography>
-        <VuiTypography variant="body2" color="text" sx={{ maxWidth: 260 }}>
-          Glad to see you again! Ask me anything about your next launch.
+        <VuiTypography variant="button" color="text" fontWeight="regular" fontSize="14px" sx={{ lineHeight: 1.5 }}>
+          An adaptive learning analytics dashboard designed for UNTIDAR. Track system parameters, face biometric matching logs, and performance structures smoothly.
         </VuiTypography>
       </VuiBox>
 
-      <VuiBox display="flex" alignItems="center" justifyContent="space-between" mt={3}>
-        <VuiButton variant="outlined" color="white" startIcon={<Icon>keyboard_voice</Icon>}>
+      {/* BAGIAN BAWAH: Tombol Aksi / Tap to Record */}
+      <VuiBox sx={{ zIndex: 2, mt: "auto" }}>
+        <VuiTypography
+          component="a"
+          href="#"
+          variant="button"
+          color="white"
+          fontWeight="bold"
+          display="flex"
+          alignItems="center"
+          sx={{
+            cursor: "pointer",
+            width: "fit-content",
+            transition: "transform 0.2s ease",
+            "&:hover": {
+              transform: "translateX(4px)", // Efek geser dikit pas di-hover
+            },
+            "& .MuiSvgIcon-root": {
+              fontSize: "16px",
+              marginLeft: "6px",
+              transition: "transform 0.2s ease",
+            },
+          }}
+        >
           Tap to record
-        </VuiButton>
-        <VuiBox display="flex" alignItems="center" gap={1} sx={{ color: "rgba(255,255,255,0.7)" }}>
-          <Icon sx={{ fontSize: 18 }}>play_circle</Icon>
-          <VuiTypography variant="caption" color="text">
-            Quick tips
-          </VuiTypography>
-        </VuiBox>
+          <ArrowForwardIcon />
+        </VuiTypography>
       </VuiBox>
+
+      {/* OVERLAY GLASS EFFECT (Biar Teks Sisi Kiri Tetap Kontras & Tajam) */}
+      <VuiBox
+        position="absolute"
+        top={0}
+        left={0}
+        width="100%"
+        height="100%"
+        sx={{
+          background: "linear-gradient(90deg, rgba(6, 11, 40, 0.9) 0%, rgba(6, 11, 40, 0.4) 60%, transparent 100%)",
+          zIndex: 1,
+        }}
+      />
     </Card>
   );
 }
