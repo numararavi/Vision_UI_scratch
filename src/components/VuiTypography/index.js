@@ -1,26 +1,18 @@
 ﻿import { forwardRef } from "react";
 import PropTypes from "prop-types";
-import VuiTypographyRoot from "./VuiTypograpyRoot";
+import VuiTypographyRoot from "./VuiTypograpyRoot"; // Sesuaikan nama file jika typo (Typhograpy)
 
-function mergeSx(styleSx, sx) {
-  if (typeof sx === "function") return (theme) => ({ ...styleSx, ...sx(theme) });
-  if (Array.isArray(sx)) return [styleSx, ...sx];
-  return { ...styleSx, ...(sx || {}) };
-}
-
-const VuiTypography = forwardRef((
-  { variant, color, fontWeight, opacity, textTransform, verticalAlign, textGradient, children, sx, ...rest },
-  ref
-) => (
-  <VuiTypographyRoot
-    {...rest}
-    ref={ref}
-    sx={mergeSx({ textTransform, verticalAlign }, sx)}
-    ownerState={{ variant, color, fontWeight, opacity, textGradient }}
-  >
-    {children}
-  </VuiTypographyRoot>
-));
+const VuiTypography = forwardRef(
+  ({ variant, color, fontWeight, opacity, textTransform, verticalAlign, textGradient, children, ...rest }, ref) => (
+    <VuiTypographyRoot
+      {...rest}
+      ref={ref}
+      ownerState={{ variant, color, fontWeight, opacity, textTransform, verticalAlign, textGradient }}
+    >
+      {children}
+    </VuiTypographyRoot>
+  )
+);
 
 VuiTypography.defaultProps = {
   variant: "body2",
@@ -33,21 +25,7 @@ VuiTypography.defaultProps = {
 };
 
 VuiTypography.propTypes = {
-  variant: PropTypes.oneOf([
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "subtitle1",
-    "subtitle2",
-    "body1",
-    "body2",
-    "button",
-    "caption",
-    "overline",
-  ]),
+  variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "subtitle1", "subtitle2", "body1", "body2", "button", "caption", "overline"]),
   color: PropTypes.string,
   fontWeight: PropTypes.oneOf([false, "light", "regular", "medium", "bold"]),
   opacity: PropTypes.number,
